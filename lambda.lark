@@ -7,6 +7,7 @@ expr: "(" expr ")"
     | lambda
     | infix
     | assign
+    | import
 
 lambda: "\\" argumens "." body
 !body: expr
@@ -16,6 +17,11 @@ infix: expr infix_operator expr
 infix_operator.2: OPERATOR
 
 assign: "let" var_name argumens "=" expr
+
+import: "import" dotted_varname
+dotted_varname: strict_varname
+                | strict_varname "." dotted_varname
+strict_varname: "`" infix_operator "`" | var_name
 
 argumens: NAME*
 

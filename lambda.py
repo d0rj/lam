@@ -18,6 +18,10 @@ let f x = \\x.x ** 2 # create function
 
 let x = 2 + 2 # create variable (also fucntion, but without arguments)
 
+import print # simple import
+import math.cos # import part of package
+import math.vector.`+` # import operator
+
 '''
 
 tree = parser.parse(programm)
