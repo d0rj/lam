@@ -31,7 +31,7 @@ argumens: NAME*
 !number: DEC_NUMBER | HEX_NUMBER | OCT_NUMBER | BIN_NUMBER | FLOAT_NUMBER | IMAG_NUMBER
 !string: STRING | LONG_STRING
 
-OPERATOR: "**"|"+"|"-"|"*"|"/"
+OPERATOR: "**"|"::"|"=="|"!="|">="|"<="|"+"|"-"|"*"|"/"|"^"|"|"|"%"|"@"|"&"|"$"|":"|"?"|">"|"<"
 
 _NEWLINE: ( /\r?\n[\t ]*/ | COMMENT )+
 
