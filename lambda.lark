@@ -1,0 +1,37 @@
+programm: (_NEWLINE* expr _NEWLINE*)*
+
+expr: "(" expr ")"
+    | value
+    | var_name
+    | expr expr
+    | lambda
+    | infix
+    | assign
+
+lambda: "\\" argumens "." body
+!body: expr
+
+infix: expr infix_operator expr
+    | expr "`" var_name "`" expr
+infix_operator.2: OPERATOR
+
+assign: "let" var_name argumens "=" expr
+
+argumens: NAME*
+
+!var_name: NAME | OPERATOR
+!value: number
+        | string
+!number: DEC_NUMBER | HEX_NUMBER | OCT_NUMBER | BIN_NUMBER | FLOAT_NUMBER | IMAG_NUMBER
+!string: STRING | LONG_STRING
+
+OPERATOR: "**"|"+"|"-"|"*"|"/"
+
+_NEWLINE: ( /\r?\n[\t ]*/ | COMMENT )+
+
+%import python (NAME, COMMENT, STRING, LONG_STRING)
+%import python (DEC_NUMBER, HEX_NUMBER, OCT_NUMBER, BIN_NUMBER, FLOAT_NUMBER, IMAG_NUMBER)
+
+%ignore /[\t \f]+/  // WS
+%ignore /\\[\t \f]*\r?\n/   // LINE_CONT
+%ignore COMMENT
