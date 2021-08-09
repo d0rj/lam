@@ -1,29 +1,16 @@
 from lark import Lark
 
 
-parser = Lark.open('lambda.lark', parser='lalr', start='programm', rel_to=__file__)
+def main() -> None:
+    parser = Lark.open('lambda.lark', parser='lalr', start='programm', rel_to=__file__)
 
-programm = '''
-42 # simple return of value
-\\x.x # or function
+    with open('programm.l', 'r') as file:
+        programm = file.read()
 
-\\x.+ x 1 # prefix operator applying
-\\x. x + 1 # or infix for operators (literally operators, such as '**')
-\\x.x `+` 1 # you can also wrap operators with backquotes
-\\x.x `mod` 3 # but for other variable names it's necessary
+    tree = parser.parse(programm)
 
-(\\x.\\y.x `mod` y) 7 3 # apply lambda function to arguments
+    print(tree.pretty())
 
-let f x = \\x.x ** 2 # create function
 
-let x = 2 + 2 # create variable (also fucntion, but without arguments)
-
-import print # simple import
-import math.cos # import part of package
-import math.vector.`+` # import operator
-
-'''
-
-tree = parser.parse(programm)
-
-print(tree.pretty())
+if __name__ == '__main__':
+    main()
