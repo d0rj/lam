@@ -1,6 +1,6 @@
 programm: (_NEWLINE* expr _NEWLINE*)*
 
-expr: "(" expr ")"
+expr: "(" expr ")" -> bracket_expr
     | value
     | var_name
     | expr expr
