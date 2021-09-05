@@ -32,6 +32,15 @@ class ToDictTransformer(Transformer):
     def value(self, s):
         return {'value': s[0]}
 
+    def strict_varname(self, s):
+        return str(s[0])
+
+    def dotted_varname(self, s):
+        if len(s) == 1:
+            return {'dotted_varname': s[0]}
+        else:
+            return {'dotted_varname': [s[0], s[1]]}
+
 
 def main() -> None:
     parser = Lark.open('lambda.lark', parser='lalr', start='programm', rel_to=__file__)
