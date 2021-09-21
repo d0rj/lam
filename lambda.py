@@ -2,6 +2,12 @@ from lark import Lark, Transformer
 
 
 class ToDictTransformer(Transformer):
+    def programm(self, s):
+        return s
+
+    def expr(self, s):
+        return s
+    
     def infix(self, s):
         return {'infix': s[1], 'arguments': [s[0], s[2]]}
 
@@ -16,6 +22,12 @@ class ToDictTransformer(Transformer):
 
     def lambd(self, s):
         return {'lambda': {'arguments': s[0], 'body': s[1]}}
+
+    def body(self, s):
+        return s
+
+    def assign(self, s):
+        return {'assign': {'variable': s[0], 'arguments': s[1], 'expr': s[2]}}
 
     def arguments(self, s):
         return list(s)
@@ -54,7 +66,11 @@ def main() -> None:
 
     print(tree.pretty())
     print('---')
-    print(ToDictTransformer().transform(tree).pretty())
+    
+    new_tree = ToDictTransformer().transform(tree)
+    [print(t, '\n') for t in new_tree]
+
+    print('\n', new_tree[5])
 
 
 if __name__ == '__main__':
