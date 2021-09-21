@@ -3,13 +3,13 @@ from lark import Lark, Transformer
 
 class ToDictTransformer(Transformer):
     def infix(self, s):
-        return { 'infix': s[1], 'arguments': [s[0], s[2]] }
+        return {'infix': s[1], 'arguments': [s[0], s[2]]}
 
     def infix_operator(self, s):
         return str(s[0])
 
     def OPERATOR(self, s):
-        return str(s)
+        return {'operator': str(s)}
 
     def bracket_expr(self, s):
         return s[0]
@@ -37,9 +37,11 @@ class ToDictTransformer(Transformer):
 
     def dotted_varname(self, s):
         if len(s) == 1:
-            return {'dotted_varname': s[0]}
-        else:
-            return {'dotted_varname': [s[0], s[1]]}
+            return {'dotted_varname': [s[0]]}
+        return {'dotted_varname': [s[0]] + s[1]['dotted_varname']}
+
+    def import_(self, s):
+        return {'import': s[0]}
 
 
 def main() -> None:

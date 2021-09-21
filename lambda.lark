@@ -7,7 +7,7 @@ expr: "(" expr ")" -> bracket_expr
     | lambd
     | infix
     | assign
-    | import
+    | import_
 
 lambd: "\\" arguments "." body
 !body: expr
@@ -18,7 +18,7 @@ infix_operator.2: OPERATOR
 
 assign: "let" var_name arguments "=" expr
 
-import: "import" dotted_varname
+import_: "import" dotted_varname
 dotted_varname: strict_varname
                 | strict_varname "." dotted_varname
 strict_varname: "`" infix_operator "`" | var_name
