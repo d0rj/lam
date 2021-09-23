@@ -12,7 +12,7 @@ class ToDictTransformer(Transformer):
         return {'infix': s[1], 'arguments': [s[0], s[2]]}
 
     def infix_operator(self, s):
-        return str(s[0])
+        return s[0]
 
     def OPERATOR(self, s):
         return {'operator': str(s)}
@@ -45,7 +45,7 @@ class ToDictTransformer(Transformer):
         return {'value': s[0]}
 
     def strict_varname(self, s):
-        return str(s[0])
+        return s[0]
 
     def dotted_varname(self, s):
         if len(s) == 1:
