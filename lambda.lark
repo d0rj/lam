@@ -18,7 +18,7 @@ infix_operator.2: OPERATOR
 
 assign: "let" var_name arguments "=" expr
 
-import_: "import" dotted_varname
+import_.3: "import" dotted_varname (_IMPL var_name)?
 dotted_varname: strict_varname
                 | strict_varname "." dotted_varname
 strict_varname: "`" infix_operator "`" | var_name
@@ -31,6 +31,7 @@ arguments: NAME*
 !number: DEC_NUMBER | HEX_NUMBER | OCT_NUMBER | BIN_NUMBER | FLOAT_NUMBER | IMAG_NUMBER
 !string: STRING | LONG_STRING
 
+_IMPL.2: "->"
 OPERATOR: "**"|"::"|"=="|"!="|">="|"<="|"+"|"-"|"*"|"/"|"^"|"|"|"%"|"@"|"&"|"$"|":"|"?"|">"|"<"
 
 _NEWLINE: ( /\r?\n[\t ]*/ | COMMENT )+

@@ -53,4 +53,7 @@ class ToDictTransformer(Transformer):
         return {'dotted_varname': [s[0]] + s[1]['dotted_varname']}
 
     def import_(self, s):
-        return {'import': s[0]}
+        if len(s) == 1:
+            return {'import': s[0]}
+        else:
+            return {'import': s[0], 'as': s[1]}
