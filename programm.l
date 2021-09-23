@@ -1,5 +1,7 @@
 
 42 # simple return of value
+"hello" # double quoted string
+'world' # simple string
 \x.x # or function
 
 \x.+ x 1 # prefix operator applying

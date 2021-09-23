@@ -41,6 +41,9 @@ class ToDictTransformer(Transformer):
     def number(self, s):
         return {'number': float(str(s[0]))}
 
+    def string(self, s):
+        return {'string': str(s[0])}
+
     def value(self, s):
         return {'value': s[0]}
 
