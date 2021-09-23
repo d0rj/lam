@@ -24,7 +24,7 @@ class ToDictTransformer(Transformer):
         return {'lambda': {'arguments': s[0], 'body': s[1]}}
 
     def body(self, s):
-        return s
+        return s[0]
 
     def assign(self, s):
         return {'assign': {'variable': s[0], 'arguments': s[1], 'expr': s[2]}}
