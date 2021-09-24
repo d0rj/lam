@@ -1,11 +1,17 @@
+from functools import reduce
+from typing import Callable
 
 
-def flatten(S: list):
+def flatten(S: list) -> list:
     if S == []:
         return S
     if isinstance(S[0], list):
         return flatten(S[0]) + flatten(S[1:])
     return S[:1] + flatten(S[1:])
+
+
+def foldr(func: Callable, acc, xs: list):
+    return reduce(lambda x, y: func(y, x), xs[::-1], acc)
 
 
 def translate_value(tree_value: dict) -> str:
@@ -47,8 +53,8 @@ def translate_assign(tree_assign: dict) -> str:
     body = translate_expr(body)
 
     outer_lambdas = [f'lambda {argument}:' for argument in arguments]
-    res = f"{var_name} = {''.join(outer_lambdas)} {body}"
-    return res
+    arguments_part = foldr(lambda x, y: f"{x}{f'({y})' if y else ''}", '', outer_lambdas)
+    return f'{var_name} = {arguments_part} {body}'
 
 
 def translate_dotted_varname(tree_dotted_varname: dict) -> str:
@@ -79,9 +85,10 @@ def translate_lambda(tree_lambda: dict) -> str:
 
     arguments = [translate_name(arg) for arg in arguments]
     outer_lambdas = [f'lambda {argument}:' for argument in arguments]
+    arguments_part = foldr(lambda x, y: f"{x}{f'({y})' if y else ''}", '', outer_lambdas)
     body = translate_expr(body)
 
-    return f"({''.join(outer_lambdas)} {body})"
+    return f"({arguments_part} {body})"
 
 
 def translate_infix(tree_infix: dict) -> str:
