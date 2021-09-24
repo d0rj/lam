@@ -78,9 +78,10 @@ def translate_lambda(tree_lambda: dict) -> str:
     body = lambda_['body']
 
     arguments = [translate_name(arg) for arg in arguments]
+    outer_lambdas = [f'lambda {argument}:' for argument in arguments]
     body = translate_expr(body)
 
-    return f"(lambda {', '.join(arguments)}: {body})"
+    return f"({''.join(outer_lambdas)} {body})"
 
 
 def translate_infix(tree_infix: dict) -> str:
