@@ -9,7 +9,7 @@ class ToDictTransformer(Transformer):
         return s
 
     def infix(self, s):
-        return {'infix': s[1], 'arguments': [s[0], s[2]]}
+        return {'infix': {'operation': s[1], 'arguments': [s[0], s[2]]}}
 
     def infix_operator(self, s):
         return s[0]
