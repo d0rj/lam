@@ -79,7 +79,7 @@ def translate_lambda(tree_lambda: dict) -> str:
     arguments = [translate_name(arg) for arg in arguments]
     body = translate_expr(body)
 
-    return f"lambda {', '.join(arguments)}: {body}"
+    return f"(lambda {', '.join(arguments)}: {body})"
 
 
 def translate_infix(tree_infix: dict) -> str:
@@ -107,7 +107,8 @@ def translate_applying(tree_app: dict) -> str:
         return f"{f' {elements[0]} '.join(elements[1:])}"
 
     elements = [translate_expr(element) for element in elements]
-    return f"{elements[0]}({', '.join(elements[1:])})"
+    bracked_elements = [f'({element})' for element in elements]
+    return ''.join(bracked_elements)
 
 
 def translate_expr(tree_expr: dict) -> str:
