@@ -1,17 +1,4 @@
-from functools import reduce
-from typing import Callable
-
-
-def flatten(S: list) -> list:
-    if S == []:
-        return S
-    if isinstance(S[0], list):
-        return flatten(S[0]) + flatten(S[1:])
-    return S[:1] + flatten(S[1:])
-
-
-def foldr(func: Callable, acc, xs: list):
-    return reduce(lambda x, y: func(y, x), xs[::-1], acc)
+from src.utils import flatten, foldr
 
 
 def translate_value(tree_value: dict) -> str:
