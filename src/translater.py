@@ -1,7 +1,11 @@
-import pprint
 
 
-pp = pprint.PrettyPrinter(indent=4)
+def flatten(S: list):
+    if S == []:
+        return S
+    if isinstance(S[0], list):
+        return flatten(S[0]) + flatten(S[1:])
+    return S[:1] + flatten(S[1:])
 
 
 def translate_value(tree_value: dict) -> str:
@@ -70,7 +74,7 @@ def translate_lambda(tree_lambda: dict) -> str:
     lambda_ = tree_lambda['lambda']
 
     arguments = lambda_['arguments']
-    body = lambda_['body'][0]
+    body = lambda_['body']
 
     arguments = [translate_name(arg) for arg in arguments]
     body = translate_expr(body)
@@ -95,6 +99,17 @@ def translate_infix(tree_infix: dict) -> str:
         return f"({arguments[0]}) {operator} ({arguments[1]})"
 
 
+def translate_applying(tree_app: dict) -> str:
+    elements = flatten(tree_app)
+
+    if 'var_name' in elements[0] and 'operator' in elements[0]['var_name']:
+        elements = [translate_expr(element) for element in elements]
+        return f"{f' {elements[0]} '.join(elements[1:])}"
+
+    elements = [translate_expr(element) for element in elements]
+    return f"{elements[0]}({', '.join(elements[1:])})"
+
+
 def translate_expr(tree_expr: dict) -> str:
     if type(tree_expr) is list:
         if len(tree_expr) == 1:
@@ -103,7 +118,7 @@ def translate_expr(tree_expr: dict) -> str:
         elif len(tree_expr) == 0:
             return ''
         else:
-            return f'Applying\n{tree_expr}'
+            return translate_applying(tree_expr)
 
     if 'value' in tree_expr:
         return translate_value(tree_expr)
