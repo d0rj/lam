@@ -46,7 +46,8 @@ def translate_assign(tree_assign: dict) -> str:
     arguments = [translate_name(arg) for arg in arguments]
     body = translate_expr(body)
 
-    res = f"{var_name} = lambda {', '.join(arguments)}: {body}"
+    outer_lambdas = [f'lambda {argument}:' for argument in arguments]
+    res = f"{var_name} = {''.join(outer_lambdas)} {body}"
     return res
 
 
@@ -93,7 +94,8 @@ def translate_infix(tree_infix: dict) -> str:
         operator = translate_operator(operation)
         return f'({arguments[0]}) {operator} ({arguments[1]})'
     if 'var_name' in operation and (not 'operator' in operation['var_name']):
-        return f"{translate_varname(operation)}({', '.join(arguments)})"
+        bracked_arguments = [f'({argument})' for argument in arguments]
+        return f"{translate_varname(operation)}{''.join(bracked_arguments)}"
     else:
         operator = translate_operator(operation['var_name'])
         return f"({arguments[0]}) {operator} ({arguments[1]})"
@@ -140,4 +142,3 @@ def translate_expr(tree_expr: dict) -> str:
 def translate(tree: dict):
     for line in tree:
         print(translate_expr(line))
-        print(line, '\n')
