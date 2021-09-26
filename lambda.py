@@ -1,18 +1,14 @@
-from inspect import isfunction, signature
-from types import BuiltinFunctionType
-
 from src.transformer import ToDictTransformer
 from src.parser import parse
-from src.translater import translate
 
 
 def main() -> None:
     tree = parse('./examples/hello_world.l')
+    parse('./examples/all_features.l')
 
     new_tree = ToDictTransformer().transform(tree)
-
-    for line in translate(new_tree):
-        print(line)
+    for l in new_tree:
+        print(l, '\n')
 
 
 if __name__ == '__main__':

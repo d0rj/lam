@@ -23,5 +23,13 @@ import math.cos # import part of package
 import math.vector.`+` # import operator
 import math.f -> func # import rename
 
-\x.x + 1
-\x.(x)
+a:Int # simple typing
+a: Int -> Float # with function types
+a :(Float, Decimal) # and Sigma types
+
+a : Int -> (Float, Int) # more complex typing
+a : (Int, Float) -> Int # like this
+a : (Int -> Int, Int) -> Float # or this
+
+[a, 2, 'hello'] # lists of values
+[a, b : A -> B, c: Float] # and also with types

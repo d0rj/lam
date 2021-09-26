@@ -1,13 +1,22 @@
 programm: (_NEWLINE* expr _NEWLINE*)*
 
 expr: "(" expr ")" -> bracket_expr
+    | typed_var
+    | type
     | value
     | var_name
     | expr expr
+    | list_like{expr, "[", "]"} -> list
     | lambd
     | infix
     | assign
     | import_
+
+typed_var: var_name ":" type
+
+type: TYPE_NAME
+    | list_like{type, "(", ")"} -> tupled_type
+    | type _IMPL type -> imp_type
 
 lambd: "\\" arguments "." body
 !body: expr
@@ -25,19 +34,23 @@ strict_varname: "`" infix_operator "`" | var_name
 
 arguments: NAME*
 
+list_like{e, _bracketl, _bracketr}: _bracketl e "," _bracketr
+                                | _bracketl e ("," e)+ _bracketr
 !var_name: NAME | OPERATOR
-!value: number
-        | string
+!value: number | string
 !number: DEC_NUMBER | HEX_NUMBER | OCT_NUMBER | BIN_NUMBER | FLOAT_NUMBER | IMAG_NUMBER
 !string: STRING | LONG_STRING
 
 _IMPL.2: "->"
-OPERATOR: "**"|"::"|"=="|"!="|">="|"<="|"+"|"-"|"*"|"/"|"^"|"|"|"%"|"@"|"&"|"$"|":"|"?"|">"|"<"
+TYPE_NAME: /[A-Z][a-zA-Z_]*/
+NAME: /[a-z][a-zA-Z_]*/
+OPERATOR: "**"|"::"|"=="|"!="|">="|"<="|"+"|"-"|"*"|"/"|"^"|"|"|"%"|"@"|"&"|"$"|"?"|">"|"<"
 
 _NEWLINE: ( /\r?\n[\t ]*/ | COMMENT )+
 
-%import python (NAME, COMMENT, STRING, LONG_STRING)
+%import python (COMMENT, STRING, LONG_STRING)
 %import python (DEC_NUMBER, HEX_NUMBER, OCT_NUMBER, BIN_NUMBER, FLOAT_NUMBER, IMAG_NUMBER)
+%import common (UCASE_LETTER, LCASE_LETTER, LETTER)
 
 %ignore /[\t \f]+/  // WS
 %ignore /\\[\t \f]*\r?\n/   // LINE_CONT
