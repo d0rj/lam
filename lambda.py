@@ -1,5 +1,5 @@
-from src.transformer import ToDictTransformer
-from src.parser import parse
+from lam.transformer import ToDictTransformer
+from lam.parser import parse
 
 
 def main() -> None:
