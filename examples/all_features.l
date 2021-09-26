@@ -10,6 +10,8 @@
 \x.x `mod` 3 # but for other variable names it's necessary
 \x.(x + \x.1) # with brackets
 
+\x.+ 1 x 2 3 # operator multi-application will be (1 + x + 2 + 3)
+
 (\x.\y.x `mod` y) 7 3 # apply lambda function to arguments
 
 let f x = \x.x ** 2 # create function
