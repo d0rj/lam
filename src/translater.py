@@ -1,3 +1,5 @@
+from typing import Generator
+
 from src.utils import flatten, foldr
 
 
@@ -132,6 +134,6 @@ def translate_expr(tree_expr: dict) -> str:
     return str(tree_expr)
 
 
-def translate(tree: dict):
+def translate(tree: dict) -> Generator[str, None, None]:
     for line in tree:
-        print(translate_expr(line))
+        yield translate_expr(line)
