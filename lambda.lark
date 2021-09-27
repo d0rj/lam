@@ -16,8 +16,10 @@ expr: "(" expr ")" -> bracket_expr
 typed_var: var_name ":" type
 
 type: TYPE_NAME
+    | TYPE_NAME list_like{inner_var, "(", ")"} -> structured_type
     | list_like{type, "(", ")"} -> tupled_type
     | type _IMPL type -> imp_type
+!inner_var: var_name | typed_var
 
 match: expr "match" (_NEWLINE? match_case _NEWLINE?)+ ";"
 

@@ -46,3 +46,8 @@ let f x = x match # pattern-matching with types
     | y: Float => 2
     | _ => 0
 ;
+
+let f p = p match # another example of pattern-matching
+    | p: Person(age: Int, _) => age * 2 # but with structures
+    | p: Worker(_, _, company) => len company
+    ;
