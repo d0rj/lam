@@ -33,3 +33,10 @@ a : (Int -> Int, Int) -> Float # or this
 
 [a, 2, 'hello'] # lists of values
 [a, b : A -> B, c: Float] # and also with types
+
+let f x = x match | 1 => 10 | 2 => 20 | n => 3;
+let g x = x match 
+    | 1 => 10
+    | n => 3 * n;
+let h x => x match
+    | 1 => 10 | _ => 4;

@@ -1,4 +1,4 @@
-programm: (_NEWLINE* expr _NEWLINE*)*
+programm: (_NEWLINE* expr _NEWLINE* ";"?)*
 
 expr: "(" expr ")" -> bracket_expr
     | typed_var
@@ -9,6 +9,7 @@ expr: "(" expr ")" -> bracket_expr
     | list_like{expr, "[", "]"} -> list
     | lambd
     | infix
+    | match
     | assign
     | import_
 
@@ -17,6 +18,12 @@ typed_var: var_name ":" type
 type: TYPE_NAME
     | list_like{type, "(", ")"} -> tupled_type
     | type _IMPL type -> imp_type
+
+match: expr "match" (_NEWLINE? match_case _NEWLINE?)+ ";"
+
+match_case: "|" case_condition _SWITCH_IMPL case_result
+!case_condition: expr
+!case_result: expr
 
 lambd: "\\" arguments "." body
 !body: expr
@@ -42,9 +49,11 @@ list_like{e, _bracketl, _bracketr}: _bracketl e "," _bracketr
 !string: STRING | LONG_STRING
 
 _IMPL.2: "->"
+_SWITCH_IMPL.2: "=>"
 TYPE_NAME: /[A-Z][a-zA-Z_]*/
-NAME: /[a-z][a-zA-Z_]*/
-OPERATOR: "**"|"::"|"=="|"!="|">="|"<="|"+"|"-"|"*"|"/"|"^"|"|"|"%"|"@"|"&"|"$"|"?"|">"|"<"
+NAME: /[a-z_][a-zA-Z_]*/
+OPERATOR: "**"|"::"|"=="|"!="|">="|"<="
+        |"+"|"-"|"*"|"/"|"^"|"%"|"@"|"&"|"$"|"?"|">"|"<"
 
 _NEWLINE: ( /\r?\n[\t ]*/ | COMMENT )+
 
