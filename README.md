@@ -20,6 +20,7 @@ But now you can see some examples of code in [this](https://github.com/d0rj/lamb
 - [ ] Lazy applying
 - [ ] AST optimization
     - [ ] Simple arithmetic
+    - [ ] Inner lambda argument put out of term
     - [ ] Some another...)
 - [ ] Tail recursion optimization
 - [ ] Code translating or compiling
