@@ -13,3 +13,13 @@ Creating with big influence of Haskell, Scala and Arend languages (with an attem
 No documentation yet...
 
 But now you can see some examples of code in [this](https://github.com/d0rj/lambda/tree/main/examples) folder.
+
+## TODO
+
+- [ ] Full functional syntax support
+- [ ] Lazy applying
+- [ ] AST optimization
+    - [ ] Simple arithmetic
+    - [ ] Some another...)
+- [ ] Tail recursion optimization
+- [ ] Code translating or compiling
